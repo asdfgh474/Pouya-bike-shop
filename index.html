@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pouya Bike Shop</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Tahoma, Arial, sans-serif;
+    }
+
+    body {
+      background: white;
+      color: #222;
+    }
+
+    header {
+      background: #111;
+      color: white;
+      padding: 25px 15px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 30px;
+      margin-bottom: 8px;
+    }
+
+    header p {
+      color: #ccc;
+      font-size: 14px;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      padding: 15px;
+      border-bottom: 1px solid #ddd;
+      background: white;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #222;
+      padding: 8px 15px;
+      border-radius: 20px;
+      transition: 0.2s;
+    }
+
+    nav a:hover {
+      background: #111;
+      color: white;
+    }
+
+    .bikes {
+      width: 90%;
+      max-width: 800px;
+      margin: 30px auto;
+    }
+
+    .bikes h2 {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .bike-card {
+      display: flex;
+      align-items: center;
+      gap: 25px;
+      margin-bottom: 25px;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 15px;
+      background: #fff;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+      transition: 0.3s;
+    }
+
+    .bike-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+
+    .bike-card img {
+      width: 250px;
+      height: 170px;
+      object-fit: contain;
+      border-radius: 10px;
+      background: #f5f5f5;
+    }
+
+    .bike-info {
+      flex: 1;
+    }
+
+    .bike-info h3 {
+      font-size: 23px;
+      margin-bottom: 10px;
+    }
+
+    .bike-info p {
+      line-height: 1.9;
+      color: #555;
+    }
+
+    .price {
+      display: block;
+      margin: 10px 0;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 9px 18px;
+      background: #111;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      cursor: pointer;
+      border: none;
+    }
+
+    .button:hover {
+      background: #333;
+    }
+
+    footer {
+      margin-top: 50px;
+      padding: 30px 15px;
+      background: #111;
+      color: white;
+      text-align: center;
+    }
+
+    .pages {
+      margin-bottom: 20px;
+    }
+
+    .pages a {
+      color: white;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+
+    .pages a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 650px) {
+      .bike-card {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .bike-card img {
+        width: 100%;
+        height: 200px;
+      }
+
+      nav {
+        flex-wrap: wrap;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>🚲 Pouya Bike Shop</h1>
+    <p>فروش و معرفی دوچرخه‌های باکیفیت</p>
+  </header>
+
+  <nav>
+    <a href="#home">خانه</a>
+    <a href="#bikes">دوچرخه‌ها</a>
+    <a href="#about">درباره ما</a>
+    <a href="#contact">تماس با ما</a>
+  </nav>
+
+  <main id="home">
+
+    <section class="bikes" id="bikes">
+      <h2>دوچرخه‌های ما</h2>
+
+      <div class="bike-card">
+        <img src="https://placehold.co/500x350?text=Viva+Bike" alt="دوچرخه ویوا">
+
+        <div class="bike-info">
+          <h3>Viva Mountain Bike</h3>
+          <p>
+            برند: Viva<br>
+            سایز: 26 اینچ<br>
+            نوع: کوهستان
+          </p>
+
+          <span class="price">قیمت: تماس بگیرید</span>
+
+          <button class="button" onclick="showMessage('Viva Mountain Bike')">
+            مشاهده مشخصات
+          </button>
+        </div>
+      </div>
+
+      <div class="bike-card">
+        <img src="https://placehold.co/500x350?text=Olympia+Bike" alt="دوچرخه المپیا">
+
+        <div class="bike-info">
+          <h3>Olympia Mountain Bike</h3>
+          <p>
+            برند: Olympia<br>
+            سایز: 27.5 اینچ<br>
+            نوع: کوهستان
+          </p>
+
+          <span class="price">قیمت: تماس بگیرید</span>
+
+          <button class="button" onclick="showMessage('Olympia Mountain Bike')">
+            مشاهده مشخصات
+          </button>
+        </div>
+      </div>
+
+      <div class="bike-card">
+        <img src="https://placehold.co/500x350?text=Flash+Bike" alt="دوچرخه فلش">
+
+        <div class="bike-info">
+          <h3>Flash Mountain Bike</h3>
+          <p>
+            برند: Flash<br>
+            سایز: 27.5 اینچ<br>
+            نوع: کوهستان
+          </p>
+
+          <span class="price">قیمت: تماس بگیرید</span>
+
+          <button class="button" onclick="showMessage('Flash Mountain Bike')">
+            مشاهده مشخصات
+          </button>
+        </div>
+      </div>
+
+      <div class="bike-card">
+        <img src="https://placehold.co/500x350?text=Scott+Bike" alt="دوچرخه اسکات">
+
+        <div class="bike-info">
+          <h3>Scott Mountain Bike</h3>
+          <p>
+            برند: Scott<br>
+            سایز: 29 اینچ<br>
+            نوع: کوهستان
+          </p>
+
+          <span class="price">قیمت: تماس بگیرید</span>
+
+          <button class="button" onclick="showMessage('Scott Mountain Bike')">
+            مشاهده مشخصات
+          </button>
+        </div>
+      </div>
+
+    </section>
+
+    <section id="about" style="text-align:center; padding:40px 20px;">
+      <h2>درباره Pouya Bike Shop</h2>
+
+      <p style="margin-top:15px;">
+        اینجا می‌توانید مدل‌های مختلف دوچرخه را مشاهده و مقایسه کنید.
+      </p>
+    </section>
+
+  </main>
+
+  <footer id="contact">
+
+    <div class="pages">
+      <a href="#home">خانه</a>
+      <a href="#bikes">دوچرخه‌ها</a>
+      <a href="#about">درباره ما</a>
+      <a href="#contact">تماس با ما</a>
+    </div>
+
+    <p>© 2026 Pouya Bike Shop</p>
+
+  </footer>
+
+  <script>
+    function showMessage(bikeName) {
+      alert(
+        "مشخصات " + bikeName +
+        "\n\nبرای اطلاعات بیشتر با فروشگاه تماس بگیرید."
+      );
+    }
+  </script>
+
+</body>
+</html>
