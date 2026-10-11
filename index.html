@@ -1,50 +1,54 @@
-const searchinput=document.getElementById("search");
-const searchbutton=document.getElementById("search-btn");
-const searchresult=document.getElementById("search-result");
-const noResults=document.getElementById("no-result");
-const divmahsool=document.getElementById("mas");
-const fghmahsool=document.getElementById("hgf");
-const brandFilter=document.getElementById("brand-filter");
+// 1. پیدا کردن عناصر HTML
+const searchinput = document.getElementById("search");
+const searchbutton = document.getElementById("search-btn");
+const searchresult = document.getElementById("search-result");
 
-        bikebrand.addEventListener("change",function() {
-            console.log(bikebrand.value);
-        });
- 
-        const tBike=document.querySelector(".product");
-        
-        console.log(tBike);
-        
-        const allbike=document.querySelectorAll(".product");
-        
-        console.log(allbike);
+const noResults = document.getElementById("no-results");
+const divmahsool = document.getElementById("mas");
+const fghmahsool = document.getElementById("hgf");
 
-noResults.hidden=hasresults;
-        divmahsool.hidden= !hasresults;
-        fghmahsool.hidden= !hasresults;
+const brandFilter = document.getElementById("brand-filter");
 
+// 2. پیدا کردن همه کارت‌های محصولات
+const allbike = document.querySelectorAll(".product");
 
-        function filterBikes() {
-            const searchtext=searchinput.value.toLowerCase().trim();
+// 3. تابع جست‌وجو و فیلتر برند
+function filterBikes() {
+    const searchtext = searchinput.value.toLowerCase().trim();
+    const selectedBrand = brandFilter.value;
 
-            const selectedBrand=brandFilter.value;
+    // بررسی تک‌تک محصولات
+    allbike.forEach(function(tBike) {
+        const biketext = tBike.textContent.toLowerCase();
 
-            allbike.forEach(function(tBike) {
-                const biketext=tBike.textContent.toLowerCase();
+        // آیا محصول با عبارت جست‌وجو مطابقت دارد؟
+        const matchesSearch = biketext.includes(searchtext);
 
-                const matchesSearch=biketext.includes(searchtext);
+        // آیا محصول با برند انتخاب‌شده مطابقت دارد؟
+        const matchesBrand =
+            selectedBrand === "all" ||
+            biketext.includes(selectedBrand);
 
-                const matchesBrand=selectedBrand==="all" ||
-                biketext.includes(selectedBrand);
+        // نمایش یا مخفی‌کردن محصول
+        tBike.style.display =
+            matchesSearch && matchesBrand ? "" : "none";
+    });
 
-                tBike.style.display=matchesSearch && matchesBrand ?"":"none";
-            });
+    // بررسی اینکه آیا محصولی باقی مانده است
+    const hasresults = [...allbike].some(function(tBike) {
+        return tBike.style.display !== "none";
+    });
 
-            const hasresults=[...allbike].some(function(tBike) {
-                return tBike.style.display !=="none";
-            });
+    // نمایش پیام در صورت نبودن نتیجه
+    noResults.hidden = hasresults;
 
-            noResults.hidden=hasresults;
-        }
+    // مخفی‌کردن عناصر موردنظر در صورت نبودن نتیجه
+    divmahsool.hidden = !hasresults;
+    fghmahsool.hidden = !hasresults;
+}
 
-        searchinput.addEventListener("input",filterBikes);
-        brandFilter.addEventListener("change",filterBikes);
+// 4. جست‌وجوی زنده هنگام تایپ
+searchinput.addEventListener("input", filterBikes);
+
+// 5. فیلتر هنگام تغییر برند
+brandFilter.addEventListener("change", filterBikes);
