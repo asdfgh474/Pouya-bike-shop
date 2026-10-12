@@ -1,17 +1,28 @@
-const searchinput = document.getElementById("search");
-const searchbutton = document.getElementById("search-btn");
-const allBikes = document.querySelectorAll(".product");
+searchinput.addEventListener("input", filterBikes);
+brandFilter.addEventListener("change", filterBikes);
 
-searchbutton.addEventListener("click", function() {
+function filterBikes() {
     const searchtext = searchinput.value.toLowerCase().trim();
+    const selectedBrand = brandFilter.value.toLowerCase();
+
+    let hasResults = false;
 
     allBikes.forEach(function(tBike) {
         const biketext = tBike.textContent.toLowerCase();
 
-        if (searchtext === "" || biketext.includes(searchtext)) {
+        const matchesSearch = biketext.includes(searchtext);
+
+        const matchesBrand =
+            selectedBrand === "all" ||
+            biketext.includes(selectedBrand);
+
+        if (matchesSearch && matchesBrand) {
             tBike.style.display = "";
+            hasResults = true;
         } else {
             tBike.style.display = "none";
         }
     });
-});
+
+    noResults.hidden = hasResults;
+}
