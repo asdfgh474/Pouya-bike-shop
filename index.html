@@ -5,45 +5,23 @@ const noResults=document.getElementById("no-result");
 const divmahsool=document.getElementById("mas");
 const fghmahsool=document.getElementById("hgf");
 const brandFilter=document.getElementById("brand-filter");
+const allBikes=document.querySelectorAll(".product");
 
-bikebrand.addEventListener("change",function() {  
-        console.log(bikebrand.value);  
-    });  
+searchbutton.addEventListener("click",function(){
+    const searchtext=searchinput.value.toLowerCase().trim();
 
-    const tBike=document.querySelector(".product");  
-      
-    console.log(tBike);  
-      
-    const allbike=document.querySelectorAll(".product");  
-      
-    console.log(allbike);
+    allBikes.forEach(function(tBike) {
+        const biketext=tBike.toLowerCase().trim();
 
-noResults.hidden=hasresults;
-divmahsool.hidden= !hasresults;
-fghmahsool.hidden= !hasresults;
+        allBikes.forEach(function(tBike) {
+            const biketext=tBike.textContent.toLowerCase();
 
-function filterBikes() {  
-        const searchtext=searchinput.value.toLowerCase().trim();  
-
-        const selectedBrand=brandFilter.value;  
-
-        allbike.forEach(function(tBike) {  
-            const biketext=tBike.textContent.toLowerCase();  
-
-            const matchesSearch=biketext.includes(searchtext);  
-
-            const matchesBrand=selectedBrand==="all" ||  
-            biketext.includes(selectedBrand);  
-
-            tBike.style.display=matchesSearch && matchesBrand ?"":"none";  
-        });  
-
-        const hasresults=[...allbike].some(function(tBike) {  
-            return tBike.style.display !=="none";  
-        });  
-
-        noResults.hidden=hasresults;  
-    }  
-
-    searchinput.addEventListener("input",filterBikes);  
-    brandFilter.addEventListener("change",filterBikes);
+            if (searchtext=== "" ||
+            biketext.includes(searchtext)) {
+                tBike.style.display="";
+            } else{
+                tBike.style.display="none";
+            }
+        });
+    });
+});
