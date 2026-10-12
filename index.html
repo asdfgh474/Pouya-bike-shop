@@ -1,27 +1,17 @@
-const searchinput=document.getElementById("search");
-const searchbutton=document.getElementById("search-btn");
-const searchresult=document.getElementById("search-result");
-const noResults=document.getElementById("no-result");
-const divmahsool=document.getElementById("mas");
-const fghmahsool=document.getElementById("hgf");
-const brandFilter=document.getElementById("brand-filter");
-const allBikes=document.querySelectorAll(".product");
+const searchinput = document.getElementById("search");
+const searchbutton = document.getElementById("search-btn");
+const allBikes = document.querySelectorAll(".product");
 
-searchbutton.addEventListener("click",function(){
-    const searchtext=searchinput.value.toLowerCase().trim();
+searchbutton.addEventListener("click", function() {
+    const searchtext = searchinput.value.toLowerCase().trim();
 
     allBikes.forEach(function(tBike) {
-        const biketext=tBike.toLowerCase().trim();
+        const biketext = tBike.textContent.toLowerCase();
 
-        allBikes.forEach(function(tBike) {
-            const biketext=tBike.textContent.toLowerCase();
-
-            if (searchtext=== "" ||
-            biketext.includes(searchtext)) {
-                tBike.style.display="";
-            } else{
-                tBike.style.display="none";
-            }
-        });
+        if (searchtext === "" || biketext.includes(searchtext)) {
+            tBike.style.display = "";
+        } else {
+            tBike.style.display = "none";
+        }
     });
 });
