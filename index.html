@@ -1,28 +1,101 @@
-searchinput.addEventListener("input", filterBikes);
-brandFilter.addEventListener("change", filterBikes);
+const searchinput = document.getElementById("search");
+const searchbutton = document.getElementById("search-btn");
+const allBikes = document.querySelectorAll(".product");
+const noResults=document.getElementById("no-result");
+const subject=document.getElementById("mas");
+const Mahsool=document.getElementById("hgf");
+const Section=document.getElementById("bike");
+const detailsName=document.getElementById("details-name");
+const bikeDetails=document.getElementById("bike-details");
+const detailsInfo=document.getElementById("details-info");
+const closeDetails=document.getElementById("close-details");
+const cartbutton=document.querySelectorAll(".add-to-cart");
+const cartcountElement=document.getElementById("cart-count");
+const cartitems=document.getElementById("cart-items");
 
-function filterBikes() {
+allBikes.forEach(function(tBike) {
+    tBike.addEventListener("click",function(event) {
+
+        if (event.target.closest("a,button")) {return;}
+        const bikeName=tBike.querySelector("h2,h3,h4");
+
+        closeDetails.addEventListener("click", function() {
+            bikeDetails.hidden=true;
+        });
+
+        detailsName.textContent=bikeName ?bikeName.textContent
+        :"pouya davoodi";
+
+        detailsInfo.textContent=tBike.textContent.replace(bikeName.textContent,"").trim();
+
+        bikeDetails.hidden=false;
+
+    });
+});
+
+searchinput.addEventListener("input", function() {
     const searchtext = searchinput.value.toLowerCase().trim();
-    const selectedBrand = brandFilter.value.toLowerCase();
 
-    let hasResults = false;
+    let hasResults=false;
 
     allBikes.forEach(function(tBike) {
         const biketext = tBike.textContent.toLowerCase();
 
-        const matchesSearch = biketext.includes(searchtext);
-
-        const matchesBrand =
-            selectedBrand === "all" ||
-            biketext.includes(selectedBrand);
-
-        if (matchesSearch && matchesBrand) {
+        if (searchtext === "" || biketext.includes(searchtext)) {
             tBike.style.display = "";
-            hasResults = true;
+            hasResults=true;
         } else {
             tBike.style.display = "none";
         }
     });
+    noResults.hidden=hasResults;
+    subject.hidden=!hasResults;
+    Mahsool.hidden=!hasResults;
+});
 
-    noResults.hidden = hasResults;
-}
+document.addEventListener("keydown", function(event) {
+    if(event.key==="Escape") {
+        bikeDetails.hidden=true;
+    }
+});
+
+cartbutton.forEach(function(button) {
+    button.addEventListener("click", function() {
+        const product=button.closest(".product");
+        const productName=product.querySelector("h2").textContent;
+        const title=product.querySelector("h2");
+        cart.push(productName);
+        let cartlist=cartitems.querySelector("uI");
+
+        if (!cartlist) {
+            cartlist=document.createElement("uI");
+            cartitems.appendChild(cartlist);}
+
+            cartlist.replaceChildren();
+                cart.forEach(function(productName){
+                const item=document.createElement("li");
+
+                const Name=document.createElement("span");
+                Name.textContent=productName;
+
+                const removebutton=document.createElement("button");
+                removebutton.textContent="remove";
+
+                item.appendChild(Name);
+                item.appendChild(removebutton);
+
+                cartlist.appendChild(item);
+                });
+
+        console.log(cart);
+        cartcount++;
+        cartcountElement.textContent=cartcount;
+
+        console.log(productName);
+    });
+});
+
+let cartcount= 0;
+const cart= [];
+
+
