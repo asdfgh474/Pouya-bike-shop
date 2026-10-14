@@ -65,27 +65,9 @@ cartbutton.forEach(function(button) {
         const productName=product.querySelector("h2").textContent;
         const title=product.querySelector("h2");
         cart.push(productName);
-        let cartlist=cartitems.querySelector("uI");
+        let cartlist=cartitems.querySelector("ul");
 
-        if (!cartlist) {
-            cartlist=document.createElement("uI");
-            cartitems.appendChild(cartlist);}
-
-            cartlist.replaceChildren();
-                cart.forEach(function(productName){
-                const item=document.createElement("li");
-
-                const Name=document.createElement("span");
-                Name.textContent=productName;
-
-                const removebutton=document.createElement("button");
-                removebutton.textContent="remove";
-
-                item.appendChild(Name);
-                item.appendChild(removebutton);
-
-                cartlist.appendChild(item);
-                });
+        rendercart();
 
         console.log(cart);
         cartcount++;
@@ -96,6 +78,46 @@ cartbutton.forEach(function(button) {
 });
 
 let cartcount= 0;
-const cart= [];
+const cart= JSON.parse(localStorage.getItem("cart")) || [];
+
+function rendercart() {
+    let cartlist=cartitems.querySelector("ul");
+
+    if (!cartlist) {
+        cartlist=document.createElement("ul");
+
+        cartitems.appendChild(cartlist);
+    }
+
+    cartlist.replaceChildren();
+    localStorage.setItem("cart",JSON.stringify(cart));
+
+    cart.forEach(function(productName,index) {
+        const item=document.createElement("li");
+
+        const name=document.createElement("span");
+        name.textContent=productName;
+
+        const removebutton=document.createElement("button");
+        removebutton.textContent="remove";
+
+        removebutton.addEventListener("click", function() {
+            cart.splice(index, 1);
+            cartcount=cart.length;
+
+            cartcountElement.textContent=cartcount;
+
+            rendercart();
+        });
+
+        item.appendChild(name);
+
+        item.appendChild(removebutton);
+        cartlist.appendChild(item);
+    });
+}
+
+cartcount=cart.length;
+cartcountElement.textContent=cartcount;
 
 
