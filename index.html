@@ -12,11 +12,13 @@ const closeDetails=document.getElementById("close-details");
 const cartbutton=document.querySelectorAll(".add-to-cart");
 const cartcountElement=document.getElementById("cart-count");
 const cartitems=document.getElementById("cart-items");
-
+const producT=document.querySelector(".product");
+const price=document.querySelector(".price");
+JSON
 allBikes.forEach(function(tBike) {
     tBike.addEventListener("click",function(event) {
 
-        if (event.target.closest("a,button")) {return;}
+        if (event.target.closest("a,button,input,label,select,textarea")) {return;}
         const bikeName=tBike.querySelector("h2,h3,h4");
 
         closeDetails.addEventListener("click", function() {
@@ -63,8 +65,15 @@ cartbutton.forEach(function(button) {
     button.addEventListener("click", function() {
         const product=button.closest(".product");
         const productName=product.querySelector("h2").textContent;
+
+        const productprice=Number(product.querySelector(".price").textContent.
+        replaceAll(",", "").trim() );
+
+        console.log(productName,productprice);
+
+
         const title=product.querySelector("h2");
-        cart.push(productName);
+        cart.push({name: productName, price:productprice});
         let cartlist=cartitems.querySelector("ul");
 
         rendercart();
@@ -76,7 +85,6 @@ cartbutton.forEach(function(button) {
         console.log(productName);
     });
 });
-
 let cartcount= 0;
 const cart= JSON.parse(localStorage.getItem("cart")) || [];
 
@@ -96,7 +104,7 @@ function rendercart() {
         const item=document.createElement("li");
 
         const name=document.createElement("span");
-        name.textContent=productName;
+        name.textContent=productName.name;
 
         const removebutton=document.createElement("button");
         removebutton.textContent="remove";
@@ -110,6 +118,9 @@ function rendercart() {
             rendercart();
         });
 
+        const price=document.createElement("span");
+        price.textContent="_" + productName.price.toLocaleString("en-US") + " تومان";
+
         item.appendChild(name);
 
         item.appendChild(removebutton);
@@ -119,5 +130,20 @@ function rendercart() {
 
 cartcount=cart.length;
 cartcountElement.textContent=cartcount;
+rendercart();
+
+let totalprice=0;
+
+allBikes.forEach(function(product) {
+    const price=product.querySelector(".price");
+
+    if (price) {
+        const pricenumber=Number(price.textContent.replaceAll(",", "") .trim());
+
+        totalprice=totalprice+pricenumber;
+    }
+});
+
+console.log(totalprice);
 
 
