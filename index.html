@@ -14,7 +14,9 @@ const cartcountElement=document.getElementById("cart-count");
 const cartitems=document.getElementById("cart-items");
 const producT=document.querySelector(".product");
 const price=document.querySelector(".price");
-JSON
+const carttotalElement=document.getElementById("cart-total");
+const carttotalcontainer=carttotalElement.parentElement;
+
 allBikes.forEach(function(tBike) {
     tBike.addEventListener("click",function(event) {
 
@@ -73,7 +75,20 @@ cartbutton.forEach(function(button) {
 
 
         const title=product.querySelector("h2");
-        cart.push({name: productName, price:productprice});
+
+        const existingproduct= cart.find(function(item) {
+            return item.name===productName;
+        });
+
+        if(existingproduct) {
+            existingproduct.quantity=(existingproduct.quantity || 1) +1;
+        }  
+        
+        else{ cart.push({name: productName, 
+                         price:productprice,
+                          quantity:1});
+                        }
+        
         let cartlist=cartitems.querySelector("ul");
 
         rendercart();
@@ -94,17 +109,25 @@ function rendercart() {
     if (!cartlist) {
         cartlist=document.createElement("ul");
 
-        cartitems.appendChild(cartlist);
+        cartitems.insertBefore(cartlist,carttotalElement.parentElement);
     }
 
     cartlist.replaceChildren();
+
+    let totalPrice=0;
+    cart.forEach(function(product) {
+        totalPrice=totalPrice+product.price;
+    });
+    carttotalElement.textContent=totalPrice.toLocaleString("en-US");
+    carttotalcontainer.hidden=cart.length===0;
+
     localStorage.setItem("cart",JSON.stringify(cart));
 
     cart.forEach(function(productName,index) {
         const item=document.createElement("li");
 
         const name=document.createElement("span");
-        name.textContent=productName.name;
+        name.textContent=productName.name+"("+(productName.quantity ||1) +")";
 
         const removebutton=document.createElement("button");
         removebutton.textContent="remove";
@@ -119,10 +142,9 @@ function rendercart() {
         });
 
         const price=document.createElement("span");
-        price.textContent="_" + productName.price.toLocaleString("en-US") + " تومان";
-
+        price.textContent= ""+productName.price.toLocaleString("en-US") + "تومان";
         item.appendChild(name);
-
+        item.appendChild(price);
         item.appendChild(removebutton);
         cartlist.appendChild(item);
     });
