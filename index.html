@@ -73,7 +73,6 @@ cartbutton.forEach(function(button) {
 
         console.log(productName,productprice);
 
-
         const title=product.querySelector("h2");
 
         const existingproduct= cart.find(function(item) {
@@ -100,8 +99,16 @@ cartbutton.forEach(function(button) {
         console.log(productName);
     });
 });
-let cartcount= 0;
-const cart= JSON.parse(localStorage.getItem("cart")) || [];
+let cartcount=0;
+let cart=[];
+
+try{
+    cart=JSON.parse(localStorage.getItem("cart")) || [];
+
+    if (!Array.isArray(cart)) {cart=[];}
+    } 
+    
+    catch(error) {cart=[];}
 
 function rendercart() {
     let cartlist=cartitems.querySelector("ul");
@@ -116,7 +123,7 @@ function rendercart() {
 
     let totalPrice=0;
     cart.forEach(function(product) {
-        totalPrice=totalPrice+product.price;
+        totalPrice=totalPrice+product.price *(product.quantity|| 1);
     });
     carttotalElement.textContent=totalPrice.toLocaleString("en-US");
     carttotalcontainer.hidden=cart.length===0;
@@ -127,25 +134,52 @@ function rendercart() {
         const item=document.createElement("li");
 
         const name=document.createElement("span");
-        name.textContent=productName.name+"("+(productName.quantity ||1) +")";
+        
+        const quantity=document.createElement("span");
+        quantity.classList.add("cart-quantity");
+
+        quantity.textContent=productName.quantity||1;
+
+        name.appendChild(quantity);
+        name.append(" "+productName.name);
 
         const removebutton=document.createElement("button");
         removebutton.textContent="remove";
 
         removebutton.addEventListener("click", function() {
-            cart.splice(index, 1);
-            cartcount=cart.length;
+            if(productName.quantity>1) {
+                productName.quantity--;
+            }  else{cart.splice(index, 1);}
+            
+            cartcount=cart.reduce(function(total,product) {
+                return total+(producT.quantity || 1); },0);
+                    cartcountElement.textContent=cartcount;
 
-            cartcountElement.textContent=cartcount;
+                    rendercart();
 
-            rendercart();
-        });
+            });
+
+
+            
+
+            
+    
 
         const price=document.createElement("span");
-        price.textContent= ""+productName.price.toLocaleString("en-US") + "تومان";
-        item.appendChild(name);
-        item.appendChild(price);
-        item.appendChild(removebutton);
+        price.textContent= productName.price.toLocaleString("en-US") + "تومان";
+        
+        const productinfo=document.createElement("div");
+        productinfo.classList.add("cart-product-info");
+
+        const pricerow=document.createElement("div");
+        pricerow.classList.add("cart-price-row");
+
+        productinfo.appendChild(name);
+        pricerow.appendChild(price);
+        pricerow.appendChild(removebutton);
+
+        item.appendChild(productinfo);
+        item.appendChild(pricerow);
         cartlist.appendChild(item);
     });
 }
@@ -167,5 +201,3 @@ allBikes.forEach(function(product) {
 });
 
 console.log(totalprice);
-
-
