@@ -232,7 +232,15 @@ allBikes.forEach(function(product) {
         totalprice=totalprice+pricenumber;
     }
 });
-let customers=JSON.parse(localStorage.getItem("customers")) ||[];
+let customers= [];
+
+try {
+    const savedcustomers=JSON.parse(localStorage.getItem("customers"));
+
+    if(Array.isArray(savedcustomers)) {customers=savedcustomers;}
+}
+
+catch (error) {customers=[];}
 
 function rendercustomers() {
     customerslist.innerHTML="";
@@ -259,17 +267,39 @@ function rendercustomers() {
         item.appendChild(editbutton);
 
         editbutton.addEventListener("click",function() {
-            const newname=prompt("enter your new name");
-            const newphone=prompt("enter your new phone number");
-        
 
-        if (newname !==null && newname.trim() !=="" &&
-        newphone !==null && /^09[0-9]{9}$/.test(newphone.trim())) {
 
-            customer[index].name=newname.trim();
-            customer[index].phone=newphone.trim();
+            const choice= prompt("1:edit name\n 2:edit phone");
 
-            localStorage.setItem("customers",JSON.stringify(customer));       rendercustomers();}
+            if(choice===1) {const newname=prompt
+            ("enter your new name");
+
+            if (newname !==null && newname.trim() !=="")
+
+            {
+                customers[index].name=newname.trim();
+
+                localStorage.setItem("customers",JSON.stringify(customers));       rendercustomers();
+            }
+            
+            else {alert("invailc choice!")}
+        }
+
+        else if(choice===2) {
+            const newphone=prompt("enteer your new phone number");
+
+            if(newphone !==null && /^09[0-9]{9}$/.test(newphone.trim())) {
+                customers[index].phone=newphone.trim();
+
+                localStorage.setItem("customers",JSON.stringify(customers));       rendercustomers();
+        }
+                else{alert("invaild choice!")}
+        }
+
+        else{
+            alert("invaild choice!")
+        }
+
         });
 
         customerslist.appendChild(item);
